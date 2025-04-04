@@ -2,9 +2,8 @@ const CACHE_NAME = 'agenda-cache-v4'
 const OFFLINE_PAGE = '/offline.html'
 const STATIC_FILES = [
   OFFLINE_PAGE,
-  '/css/styles.css',
-  '/js/scripts.js',
-  '/images/logo.png',
+  '/assets/css/style.css',
+  '/assets/js/scripts.js',
 ]
 
 // Instalando o Service Worker
