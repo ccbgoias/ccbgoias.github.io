@@ -11,7 +11,22 @@ const STATIC_FILES = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_FILES) // Pré-cache de arquivos estáticos
+      return Promise.all(
+        STATIC_FILES.map((file) =>
+          fetch(file)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(
+                  `Erro ao buscar ${file}: ${response.statusText}`
+                )
+              }
+              return cache.put(file, response)
+            })
+            .catch((error) => {
+              console.error(`Falha ao adicionar ${file} ao cache:`, error)
+            })
+        )
+      )
     })
   )
   self.skipWaiting() // Força a ativação imediata do SW
